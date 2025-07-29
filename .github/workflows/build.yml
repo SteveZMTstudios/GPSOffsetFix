@@ -20,6 +20,10 @@ jobs:
           distribution: 'temurin'
           java-version: '8'
 
+      - name: Install zlib for legacy build-tools
+        run: sudo apt-get update && sudo apt-get install -y zlib1g
+
+
       - name: Download legacy Android SDK tools
         run: |
           wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip -O sdk-tools.zip
