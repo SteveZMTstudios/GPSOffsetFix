@@ -57,14 +57,27 @@ jobs:
       - name: List all APKs
         run: find . -name "*.apk"
 
+      - name: Zip all APK outputs
+        run: |
+          cd app/build/outputs/apk
+          zip -r ../../../../all-apks.zip .
+          cd -
+
+      - name: Upload all APKs as zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-apks
+          path: app/build/all-apks.zip
+
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/*debug*.apk
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: app/build/outputs/apk/release/*.apk
+          path: app/build/outputs/apk/*release*.apk
+
