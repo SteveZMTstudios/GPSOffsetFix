@@ -21,8 +21,13 @@ jobs:
           java-version: '8'
 
       - name: Install zlib for legacy build-tools
-        run: sudo apt-get update && sudo apt-get install -y zlib1g
+        run: sudo apt-get update && sudo apt-get install -y zlib1g lib32z1 libc6-i386
 
+      - name: Check for libz presence
+        run: |
+          ls -l /usr/lib/x86_64-linux-gnu/libz.so.1 || true
+          ls -l /lib/x86_64-linux-gnu/libz.so.1 || true
+          ldconfig -p | grep libz
 
       - name: Download legacy Android SDK tools
         run: |
@@ -44,7 +49,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle (Debug)
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --info
 
       - name: Build with Gradle (Release)
         run: ./gradlew assembleRelease
